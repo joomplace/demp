@@ -1,3 +1,5 @@
 ubuntu-*.log
 .vagrant
 persistent-data
+.idea
+!.idea/commandlinetools/Custom_dump_database.xml
