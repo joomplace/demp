@@ -1,0 +1,43 @@
+version: "3.3"
+services:
+  nginx:
+    container_name: nginx
+    image: nginx:latest
+    command: nginx -g "daemon off;"
+    restart: always
+    volumes:
+      - /var/www/docker/nginx/snippets:/etc/nginx/snippets
+      - /var/www/docker/nginx/conf.d:/etc/nginx/conf.d
+      - type: bind
+        source: ../code
+        target: /var/www/html
+    ports:
+      - "80:80"
+  php:
+    container_name: php
+    build:
+      context: ./phpxdebug
+    restart: always
+    environment:
+      - database=joomla
+      - db_user=db_user
+      - db_password=db_user_password
+    volumes:
+      - /var/www/docker/php/custom.ini:/.user.ini
+      - type: bind
+        source: ../code
+        target: /var/www/html
+    working_dir: /var/www/html
+    ports:
+      - "9000:9000"
+  mysql:
+    container_name: database
+    image: mysql
+    restart: always
+    command: ['--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci',
+              '--default-authentication-plugin=mysql_native_password', "--innodb_use_native_aio=0"]
+    volumes:
+      - /var/www/persistent-data/mysql-data:/var/lib/mysql
+      - /var/www/docker/mysql/init:/docker-entrypoint-initdb.d
+    environment:
+      MYSQL_ROOT_PASSWORD: dfgq#%KFe3cJD6$$x4K
