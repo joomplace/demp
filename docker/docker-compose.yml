@@ -41,3 +41,14 @@ services:
       - /var/www/docker/mysql/init:/docker-entrypoint-initdb.d
     environment:
       MYSQL_ROOT_PASSWORD: dfgq#%KFe3cJD6$$x4K
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    environment:
+      PMA_ARBITRARY: 1
+      PMA_USER: pma
+      PMA_PASSWORD: nRKv5cdE&Prd@9HQNB
+      PMA_HOST: mysql
+    restart: always
+    ports:
+      - 8080:80
